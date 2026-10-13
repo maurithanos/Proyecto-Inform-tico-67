@@ -13,7 +13,7 @@ function Register() {
             await axios.post('http://localhost:3000/register', form)
             setMensaje('Usuario registrado correctamente')
         } catch (err) {
-            setMensaje(err.response?.data?.error || 'Error al registrar')
+            setMensaje(err.response?.data?.error || 'No se pudo conectar con el servidor')
         }
     }
 
@@ -27,6 +27,7 @@ function Register() {
             <input name="anio" type="number" placeholder="Año" onChange={handleChange} />
             <button type="submit">Registrarse</button>
             <p>{mensaje}</p>
+            <p>¿Ya estas registrado?<Link to="/login">Logeate aca</Link></p>
         </form>
     )
 }
