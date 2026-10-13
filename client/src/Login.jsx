@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-const navigate = useNavigate()
 
 function Login() {
-    
+    const navigate = useNavigate()
     const [form, setForm] = useState({ email: '', password: '' })
     const [mensaje, setMensaje] = useState('')
 

@@ -1,4 +1,4 @@
-const { Usuario } = require('../models/usuario.js')
+const { Usuario } = require('../models')
 const sequelize = require('../config/database')
 const bcrypt = require('bcrypt')
 const { calcularDVH } = require('../utils/digitoVerificador')
