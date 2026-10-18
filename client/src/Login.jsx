@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import './login.css'
 
 function Login() {
     const navigate = useNavigate()
@@ -23,13 +24,15 @@ function Login() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleSubmit}>
             <h2>Iniciar sesión</h2>
-            <input name="email" type="email" placeholder="Email" onChange={handleChange} />
-            <input name="password" type="password" placeholder="Contraseña" onChange={handleChange} />
-            <button type="submit">Ingresar</button>
+            <input className='email-login' name="email" type="email" placeholder="Email" onChange={handleChange} />
+            <input className='contrasena-login' name="password" type="password" placeholder="Contraseña" onChange={handleChange} />
+            <button className="btn btn-login" type="submit">Ingresar</button>
             <p>{mensaje}</p>
-            <p>¿No estas registrado? <Link to="/register">Registrate acá</Link></p>
+            <p>
+                ¿No estas registrado? <Link className="no-registrado" to="/register">Registrate acá</Link>
+            </p>
         </form>
     )
 }
