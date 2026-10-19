@@ -1,7 +1,7 @@
 const express = require('express')
 const sequelize = require('./config/database')
 require('./models')
-const { register, login, perfil } = require('./controllers/user.controller')
+const { register, login, perfil, modificarPerfil } = require('./controllers/user.controller')
 const { verificarIntegridad } = require('./services/integridad')
 const { verificarToken } = require('./services/auth.js')
 
@@ -20,6 +20,8 @@ server.use((req, res, next) => {
 server.post('/register', register)
 server.post('/login', login)
 server.get('/perfil',verificarToken, perfil)
+server.patch('/perfil',verificarToken, modificarPerfil)
+
 
 
 sequelize.sync().then(async () => {

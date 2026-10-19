@@ -101,4 +101,27 @@ const perfil = async(req,res)=>{
     
 }
 
-module.exports = { register, login, perfil}
+const modificarPerfil = async (req,res)=>{
+    try {
+        const user = await Usuario.findByPk(req.user.id)
+        if (!user) {
+            return res.status(404).json("Usuario no encontrado")
+        }
+
+        await user.update(req.body);
+        await user.save();
+        await registrarBitacora('Cuenta modificada',`Se modifico los campos ${user(req.body)}} del usuario ${user.email}`, user.id, null)
+        const dvhCalculado = calcularDVH(...camposUsuario(user));
+        user.dvh = dvhCalculado;
+        await user.save();
+        usuarioRespuesta = Usuario.findByPk(user.id,{exclude:['password','dvh']})
+
+        return res.status(200).json(usuarioRespuesta)
+        
+
+    } catch (error) {
+        return res.status(500).json({ error: 'Error interno' })
+    }
+}
+
+module.exports = { register, login, perfil,modificarPerfil}

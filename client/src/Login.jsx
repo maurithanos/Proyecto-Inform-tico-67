@@ -16,7 +16,7 @@ function Login() {
         try {
             const { data } = await axios.post('http://localhost:3000/login', form)
             localStorage.setItem('token', data.token)
-            navigate('/perfil')
+            navigate('/home')
         } catch (err) {
             setMensaje(err.response?.data?.error || 'No se pudo conectar con el servidor')
 

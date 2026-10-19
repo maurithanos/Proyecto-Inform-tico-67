@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Register.css'
 import './header.css'
 import './footer.css'
 
 function Register() {
+    const Navigate = useNavigate();
     const [form, setForm] = useState({ name: '', email: '', password: '', escuela: '', anio: '' })
     const [mensaje, setMensaje] = useState('')
 
