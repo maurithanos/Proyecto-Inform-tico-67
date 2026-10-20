@@ -109,12 +109,14 @@ const modificarPerfil = async (req,res)=>{
         }
 
         await user.update(req.body);
-        await user.save();
-        await registrarBitacora('Cuenta modificada',`Se modifico los campos ${user(req.body)}} del usuario ${user.email}`, user.id, null)
+        await registrarBitacora('Cuenta modificada',`Se modifico los campos del usuario ${user.email}`, user.id, null)
+
         const dvhCalculado = calcularDVH(...camposUsuario(user));
         user.dvh = dvhCalculado;
         await user.save();
-        usuarioRespuesta = Usuario.findByPk(user.id,{exclude:['password','dvh']})
+
+
+        usuarioRespuesta = await Usuario.findByPk(user.id,{exclude:['password','dvh']})
 
         return res.status(200).json(usuarioRespuesta)
         

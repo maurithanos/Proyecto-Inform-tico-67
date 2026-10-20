@@ -4,9 +4,18 @@ import Login from './Login'
 import Perfil from './Perfil'
 import Home from './Home'
 import CrearApunte from './CrearApunte'
-
+import Verapuntes from './Verapuntes'
+/*
 function RutaProtegida({ children }) {
     return localStorage.getItem('token') ? children : <Navigate to="/login" replace />
+}
+*/
+function RutaProtegida({ children }) {
+    const token = localStorage.getItem('token')
+
+    console.log('Token encontrado:', !!token)
+
+    return token ? children : <Navigate to="/login" replace />
 }
 
 function App() {
@@ -17,7 +26,7 @@ function App() {
                 <Link className='header-iniciar-sesion' to="/login">Iniciar sesion</Link>
                 <Link className='header-registro' to="/register">Registrarse</Link>
                 <Link className='header-modificar' to="/modificar">Modificar usuario</Link>
-                <Link className='header-detalles' to="/detalles">Detalles de cuenta</Link> 
+                <Link className='header-detalles' to="/perfil">Detalles de cuenta</Link> 
             </header>
 
             <main>
@@ -26,7 +35,6 @@ function App() {
                     <Route path="/" element={<div><h1>Página Principal (Home)</h1></div>} />
                     <Route path="/modificar" element={<div><h1>Modificar Usuario</h1></div>} />
                     <Route path="/detalles" element={<div><h1>Detalles de Cuenta</h1></div>} />
-                    
                     {/* Rutas existentes */}
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
@@ -51,6 +59,14 @@ function App() {
                         element={
                             <RutaProtegida>
                                 <Home />
+                            </RutaProtegida>
+                        }
+                    />
+                    <Route
+                        path="/verapuntes"
+                        element={
+                            <RutaProtegida>
+                                <Verapuntes />
                             </RutaProtegida>
                         }
                     />

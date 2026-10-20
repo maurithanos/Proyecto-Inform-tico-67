@@ -14,7 +14,7 @@ function Home() {
             <nav>
                 <ul>
                     <li><Link to="/perfil">Mi perfil</Link></li>
-                    <li><Link to="/apuntes">Apuntes</Link></li>
+                    <li><Link to="/verapuntes">Apuntes</Link></li>
                     <li><Link to="/calendario">Calendario</Link></li>
                     <li><Link to="/apuntes/nuevo">Crear apunte</Link></li>
                 </ul>

@@ -23,5 +23,15 @@ const crearApunte = async (req, res) => {
         res.status(500).json({ error: 'Error interno' })
     }
 }
+const  getApuntesPrivados = async (req, res) => {
+    const { id } = req.user
+    try {
+        const apuntes = await Apunte.findAll({ where: { usuarioId: id} })
+        return res.status(200).json(apuntes)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Error interno' })
+    }
+}
 
-module.exports = { crearApunte }
+module.exports = { crearApunte , getApuntesPrivados}

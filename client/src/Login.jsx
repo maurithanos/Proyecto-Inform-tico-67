@@ -15,8 +15,15 @@ function Login() {
         setMensaje('')
         try {
             const { data } = await axios.post('http://localhost:3000/login', form)
-            localStorage.setItem('token', data.token)
-            navigate('/home')
+
+            if (data.token) {
+                localStorage.setItem('token', data.token)
+                navigate('/home', { replace: true })
+            } else {
+                setMensaje('El servidor no devolvió un token')
+            }
+            //localStorage.setItem('token', data.token)
+            //navigate('/home')
         } catch (err) {
             setMensaje(err.response?.data?.error || 'No se pudo conectar con el servidor')
 

@@ -34,7 +34,9 @@ function CrearApunte() {
             </label>
             <button type="submit">Guardar</button>
             <p>{mensaje}</p>
+
         </form>
+
     )
 }
 

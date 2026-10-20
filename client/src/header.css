@@ -1,72 +1,24 @@
 .site-header {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    background-color: #121212; 
-    color: white; 
-    height: 30px;
-    text-align: center;
-    padding: 10px 0;
+    height: 50px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    background-color: #121212;
     border-bottom: 1.8px solid white;
+    z-index: 100;
 }
 
-.header-iniciar-sesion {
-    margin-left: 9%;
-    display: flex;
-    position: absolute;
-    top: 0;
-    width: 10%;
-    color: white; 
-    height: 70px;
-    text-align: center;
-    padding: 10px 0;
+.site-header a {
+    color: white;
 }
 
-.header-registro {
-    margin-left: 25%;
-    display: flex; 
-    position: absolute;
-    top: 0;
-    width: 60%; 
-    color: white; 
-    height: 70px;
-    text-align: center;
-    padding: 10px 0;
-}
-
-.header-home {
-    margin-left: 48%;
-    display: flex;
-    position: absolute;
-    top: 0;
-    width: 100%; 
-    color: white; 
-    height: 70px;
-    text-align: center;
-    padding: 10px 0;
-}
-
-.header-modificar {
-    margin-left: 67%;
-    display: flex;
-    position: absolute;
-    top: 0;
-    width: 140%; 
-    color: white; 
-    height: 70px;
-    text-align: center;
-    padding: 10px 0;
-}
-
-.header-detalles {
-    margin-left: 83%;
-    display: flex;
-    position: absolute;
-    top: 0;
-    width: 180%; 
-    color: white; 
-    height: 70px;
-    text-align: center;
-    padding: 10px 0;
+.site-header a:hover {
+    text-decoration: underline;
 }
 
