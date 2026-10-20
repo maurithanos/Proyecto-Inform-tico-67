@@ -13,3 +13,5 @@ const Apuntes = sequelize.define('apuntes',{
         type: DataTypes.STRING,
     },
 })
+
+module.exports = Apuntes

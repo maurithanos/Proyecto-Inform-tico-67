@@ -4,6 +4,7 @@ require('./models')
 const { register, login, perfil, modificarPerfil } = require('./controllers/user.controller')
 const { verificarIntegridad } = require('./services/integridad')
 const { verificarToken } = require('./services/auth.js')
+const { crearApunte } = require('./controllers/apunte.controller')
 
 const server = express()
 server.use(express.json())
@@ -21,6 +22,8 @@ server.post('/register', register)
 server.post('/login', login)
 server.get('/perfil',verificarToken, perfil)
 server.patch('/perfil',verificarToken, modificarPerfil)
+
+server.post('/apuntes', verificarToken, crearApunte)
 
 
 

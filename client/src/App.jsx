@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom'
 import Register from './Register'
 import Login from './Login'
 import Perfil from './Perfil'
+import Home from './Home'
+import CrearApunte from './CrearApunte'
 
 function RutaProtegida({ children }) {
     return localStorage.getItem('token') ? children : <Navigate to="/login" replace />
@@ -11,7 +13,7 @@ function App() {
     return (
         <BrowserRouter>
             <header className="site-header">
-                <Link className='header-home' to="/">Home</Link>
+                <Link className='header-home' to="/home">Home</Link>
                 <Link className='header-iniciar-sesion' to="/login">Iniciar sesion</Link>
                 <Link className='header-registro' to="/register">Registrarse</Link>
                 <Link className='header-modificar' to="/modificar">Modificar usuario</Link>
@@ -33,6 +35,22 @@ function App() {
                         element={
                             <RutaProtegida>
                                 <Perfil />
+                            </RutaProtegida>
+                        }
+                    />
+                    <Route
+                        path="/apuntes/nuevo"
+                        element={
+                            <RutaProtegida>
+                                <CrearApunte />
+                            </RutaProtegida>
+                         }
+                    />
+                    <Route
+                        path="/home"
+                        element={
+                            <RutaProtegida>
+                                <Home />
                             </RutaProtegida>
                         }
                     />

@@ -16,6 +16,7 @@ function Home() {
                     <li><Link to="/perfil">Mi perfil</Link></li>
                     <li><Link to="/apuntes">Apuntes</Link></li>
                     <li><Link to="/calendario">Calendario</Link></li>
+                    <li><Link to="/apuntes/nuevo">Crear apunte</Link></li>
                 </ul>
             </nav>
             <button onClick={cerrarSesion}>Cerrar sesión</button>
