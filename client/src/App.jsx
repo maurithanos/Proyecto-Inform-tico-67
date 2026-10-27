@@ -5,6 +5,7 @@ import Perfil from './Perfil'
 import Home from './Home'
 import CrearApunte from './CrearApunte'
 import Verapuntes from './Verapuntes'
+import EditarApunte from './Editarapunte'
 import { useAuth } from './AuthContext'
 function RutaProtegida({ children, roles }) {
     const { usuario } = useAuth()
@@ -65,6 +66,13 @@ function App() {
                             </RutaProtegida>
                         }
                     />
+                    <Route 
+                        path="/apuntes/:id/editar" 
+                        element={
+                            <RutaProtegida>
+                                <EditarApunte />
+                            </RutaProtegida>
+                        } />
                     <Route path="*" element={<Navigate to="/login" replace />} />
                 </Routes>
             </main>

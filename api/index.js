@@ -6,7 +6,7 @@ const { verificarIntegridad } = require('./services/integridad')
 const { verificarToken } = require('./services/auth.js')
 const { tienePermiso } = require('./services/permisos')
 const { seedRoles } = require('./seeders/seedRoles')
-const { crearApunte, getApuntesPrivados } = require('./controllers/apunte.controller')
+const { crearApunte, getApuntesPrivados,obtenerApunte,actualizarApunte } = require('./controllers/apunte.controller')
 
 const server = express()
 server.use(express.json())
@@ -27,6 +27,8 @@ server.patch('/perfil', verificarToken, tienePermiso('Usuarios', 'update'), modi
 
 server.post('/apuntes', verificarToken, tienePermiso('Apuntes', 'create'), crearApunte)
 server.get('/apuntes', verificarToken, tienePermiso('Apuntes', 'read'), getApuntesPrivados)
+server.get('/apuntes/:id', verificarToken,tienePermiso('Apuntes', 'read'), obtenerApunte)
+server.patch('/apuntes/:id', verificarToken,tienePermiso('Apuntes', 'update'), actualizarApunte)
 
 sequelize.sync().then(async () => {
     await seedRoles()

@@ -23,6 +23,7 @@ const crearApunte = async (req, res) => {
         res.status(500).json({ error: 'Error interno' })
     }
 }
+
 const  getApuntesPrivados = async (req, res) => {
     const { id } = req.user
     try {
@@ -34,4 +35,40 @@ const  getApuntesPrivados = async (req, res) => {
     }
 }
 
-module.exports = { crearApunte , getApuntesPrivados}
+const obtenerApunte = async (req, res) => {
+    try {
+        const apunte = await Apunte.findOne({where: { id: req.params.id, usuarioId: req.user.id }
+        })
+        if (!apunte) {
+            return res.status(404).json({ error: 'Apunte no encontrado' })
+        }
+        res.json(apunte)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Error interno' })
+    }
+}
+
+const actualizarApunte = async (req, res) => {
+    try {
+        const apunte = await Apunte.findOne({
+            where: { id: req.params.id, usuarioId: req.user.id }
+        })
+        if (!apunte) {
+            return res.status(404).json({ error: 'Apunte no encontrado' })
+        }
+
+        await apunte.update(req.body)
+        await registrarBitacora('Apunte modificado', 
+            `Apunte ${apunte.id} modificado por ${req.user.email}`, req.user.id, null)
+ 
+        return res.status(200).json(apunte)
+    } catch (err) {
+        console.error(err)
+        return res.status(500).json({ error: 'Error interno' })
+    }
+}
+
+
+
+module.exports = { crearApunte , getApuntesPrivados,obtenerApunte,actualizarApunte}

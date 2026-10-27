@@ -40,6 +40,7 @@ function Verapuntes() {
                         <strong>Descripción:</strong> {apunte.Descripcion} <br />
                         <strong>Archivo:</strong> {apunte.Archivo} <br />
                         <strong>Privado:</strong> {apunte.EsPrivado ? 'Sí' : 'No'}
+                        <p><Link to={`/apuntes/${apunte.id}/editar`}>Modificar apunte</Link></p>
                     </li>
                 ))}
             </ul>
