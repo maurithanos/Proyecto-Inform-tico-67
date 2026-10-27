@@ -6,14 +6,15 @@ const { verificarIntegridad } = require('./services/integridad')
 const { verificarToken } = require('./services/auth.js')
 const { tienePermiso } = require('./services/permisos')
 const { seedRoles } = require('./seeders/seedRoles')
-const { crearApunte, getApuntesPrivados,obtenerApunte,actualizarApunte } = require('./controllers/apunte.controller')
+const { crearApunte, getApuntesPrivados, obtenerApunte, actualizarApunte } = require('./controllers/apunte.controller')
+const { crearEvento, listarEventos } = require('./controllers/calendario.controller')
 
 const server = express()
 server.use(express.json())
 
 server.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE,PATCH, OPTIONS')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     res.setHeader('Access-Control-Allow-Credentials', 'true')
     if (req.method === 'OPTIONS') return res.sendStatus(200)
@@ -27,8 +28,11 @@ server.patch('/perfil', verificarToken, tienePermiso('Usuarios', 'update'), modi
 
 server.post('/apuntes', verificarToken, tienePermiso('Apuntes', 'create'), crearApunte)
 server.get('/apuntes', verificarToken, tienePermiso('Apuntes', 'read'), getApuntesPrivados)
-server.get('/apuntes/:id', verificarToken,tienePermiso('Apuntes', 'read'), obtenerApunte)
-server.patch('/apuntes/:id', verificarToken,tienePermiso('Apuntes', 'update'), actualizarApunte)
+server.get('/apuntes/:id', verificarToken, tienePermiso('Apuntes', 'read'), obtenerApunte)
+server.patch('/apuntes/:id', verificarToken, tienePermiso('Apuntes', 'update'), actualizarApunte)
+
+server.post('/calendario', verificarToken, crearEvento)
+server.get('/calendario', verificarToken, listarEventos)
 
 sequelize.sync().then(async () => {
     await seedRoles()

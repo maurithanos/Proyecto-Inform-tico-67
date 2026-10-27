@@ -7,6 +7,8 @@ import CrearApunte from './CrearApunte'
 import Verapuntes from './Verapuntes'
 import EditarApunte from './Editarapunte'
 import { useAuth } from './AuthContext'
+import Calendario from './Calendario'
+
 function RutaProtegida({ children, roles }) {
     const { usuario } = useAuth()
     if (!usuario) return <Navigate to="/login" replace />
@@ -30,6 +32,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<div><h1>Página Principal (Home)</h1></div>} />
                     <Route path="/modificar" element={<div><h1>Modificar Usuario</h1></div>} />
+                    <Route path="/calendario" element={<RutaProtegida><Calendario /></RutaProtegida>} />
                     <Route path="/detalles" element={<div><h1>Detalles de Cuenta</h1></div>} />
                     {/* Rutas existentes */}
                     <Route path="/register" element={<Register />} />
