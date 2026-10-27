@@ -5,20 +5,16 @@ import Perfil from './Perfil'
 import Home from './Home'
 import CrearApunte from './CrearApunte'
 import Verapuntes from './Verapuntes'
-/*
-function RutaProtegida({ children }) {
-    return localStorage.getItem('token') ? children : <Navigate to="/login" replace />
-}
-*/
-function RutaProtegida({ children }) {
-    const token = localStorage.getItem('token')
-
-    console.log('Token encontrado:', !!token)
-
-    return token ? children : <Navigate to="/login" replace />
+import { useAuth } from './AuthContext'
+function RutaProtegida({ children, roles }) {
+    const { usuario } = useAuth()
+    if (!usuario) return <Navigate to="/login" replace />
+    if (roles && !roles.includes(usuario.rol)) return <Navigate to="/home" replace />
+    return children
 }
 
 function App() {
+    const { usuario, logout } = useAuth()
     return (
         <BrowserRouter>
             <header className="site-header">
@@ -31,7 +27,6 @@ function App() {
 
             <main>
                 <Routes>
-                    {/* Rutas añadidas para que los enlaces del header funcionen */}
                     <Route path="/" element={<div><h1>Página Principal (Home)</h1></div>} />
                     <Route path="/modificar" element={<div><h1>Modificar Usuario</h1></div>} />
                     <Route path="/detalles" element={<div><h1>Detalles de Cuenta</h1></div>} />

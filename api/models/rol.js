@@ -1,9 +1,9 @@
-const {DataTypes} = require("sequelize");
-const sequelize = require('../config/database');
+   const { DataTypes } = require('sequelize')
+   const sequelize = require('../config/database')
 
-const Rol = sequelize.define('rol',{
-    nombre:{
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-})
+   const Rol = sequelize.define('Rol', {
+       nombre: { type: DataTypes.STRING, allowNull: false, unique: true }
+   })
+
+   module.exports = Rol
+

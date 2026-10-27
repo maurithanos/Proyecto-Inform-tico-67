@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from './AuthContext'
 import './login.css'
 
 function Login() {
     const navigate = useNavigate()
+    const { login } = useAuth()
     const [form, setForm] = useState({ email: '', password: '' })
     const [mensaje, setMensaje] = useState('')
 
@@ -17,16 +19,13 @@ function Login() {
             const { data } = await axios.post('http://localhost:3000/login', form)
 
             if (data.token) {
-                localStorage.setItem('token', data.token)
+                login({ token: data.token, usuario: data.user })
                 navigate('/home', { replace: true })
             } else {
                 setMensaje('El servidor no devolvió un token')
             }
-            //localStorage.setItem('token', data.token)
-            //navigate('/home')
         } catch (err) {
             setMensaje(err.response?.data?.error || 'No se pudo conectar con el servidor')
-
         }
     }
 

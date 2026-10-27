@@ -4,7 +4,9 @@ require('./models')
 const { register, login, perfil, modificarPerfil } = require('./controllers/user.controller')
 const { verificarIntegridad } = require('./services/integridad')
 const { verificarToken } = require('./services/auth.js')
-const { crearApunte, getApuntesPrivados  } = require('./controllers/apunte.controller')
+const { tienePermiso } = require('./services/permisos')
+const { seedRoles } = require('./seeders/seedRoles')
+const { crearApunte, getApuntesPrivados } = require('./controllers/apunte.controller')
 
 const server = express()
 server.use(express.json())
@@ -20,15 +22,17 @@ server.use((req, res, next) => {
 
 server.post('/register', register)
 server.post('/login', login)
-server.get('/perfil',verificarToken, perfil)
-server.patch('/perfil',verificarToken, modificarPerfil)
+server.get('/perfil', verificarToken, tienePermiso('Usuarios', 'read'), perfil)
+server.patch('/perfil', verificarToken, tienePermiso('Usuarios', 'update'), modificarPerfil)
 
-server.post('/apuntes', verificarToken, crearApunte)
-server.get('/apuntes', verificarToken, getApuntesPrivados)
-
+server.post('/apuntes', verificarToken, tienePermiso('Apuntes', 'create'), crearApunte)
+server.get('/apuntes', verificarToken, tienePermiso('Apuntes', 'read'), getApuntesPrivados)
 
 sequelize.sync().then(async () => {
+    await seedRoles()
     const errores = await verificarIntegridad()
     if (errores.length) console.error('Integridad comprometida:', errores)
     server.listen(3000, () => console.log('Server ON en el puerto 3000'))
+}).catch((err) => {
+    console.error('No se pudo iniciar el servidor:', err)
 })
