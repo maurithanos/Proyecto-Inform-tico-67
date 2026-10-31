@@ -1,6 +1,6 @@
 .cal-pagina {
     width: 100%;
-    max-width: 960px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 24px 16px;
     box-sizing: border-box;
@@ -8,24 +8,48 @@
 }
 
 .cal-titulo {
+    margin: 0 0 24px;
     text-align: center;
-    margin: 0 0 20px;
+    font-size: 28px;
 }
 
+.cal-titulo::after {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 4px;
+    margin: 10px auto 0;
+    background: #6c8cff;
+    border-radius: 2px;
+}
+
+/* Formulario */
 .cal-form {
     display: grid;
     grid-template-columns: 1fr 1fr 170px auto;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
-    padding: 16px;
-    margin-bottom: 24px;
+    padding: 20px;
+    margin-bottom: 28px;
     background: #262626;
     border: 1px solid #3d3d3d;
-    border-radius: 12px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transition: border-color 0.2s;
+}
+
+.cal-form.cal-editando {
+    border-color: #6c8cff;
+}
+
+.cal-form-titulo {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 18px;
 }
 
 .cal-form input {
-    padding: 10px 12px;
+    padding: 11px 12px;
     background: #333;
     color: #f1f1f1;
     border: 1px solid #3d3d3d;
@@ -38,56 +62,79 @@
     border-color: #6c8cff;
 }
 
+.cal-botones {
+    display: flex;
+    gap: 8px;
+}
+
 .cal-form button {
-    padding: 10px 18px;
+    padding: 11px 18px;
     background: #6c8cff;
     color: #fff;
     border: none;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
 .cal-form button:hover {
     background: #8aa3ff;
 }
 
+.cal-form .cal-cancelar {
+    background: transparent;
+    border: 1px solid #3d3d3d;
+    color: #b0b0b0;
+}
+
+.cal-form .cal-cancelar:hover {
+    background: #333;
+    border-color: #6c8cff;
+    color: #f1f1f1;
+}
+
 .cal-mensaje {
     grid-column: 1 / -1;
     margin: 0;
+    min-height: 18px;
     text-align: center;
     font-size: 14px;
     color: #b0b0b0;
 }
 
+/* Navegación del mes */
 .cal-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .cal-mes {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
     text-transform: capitalize;
 }
 
 .cal-nav button {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     background: #262626;
     color: #f1f1f1;
     border: 1px solid #3d3d3d;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 20px;
     cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
 }
 
 .cal-nav button:hover {
     border-color: #6c8cff;
+    background: #2f2f2f;
 }
 
+/* Tabla */
 .cal-tabla {
     width: 100%;
     table-layout: fixed;
@@ -96,28 +143,30 @@
 }
 
 .cal-tabla th {
-    padding: 8px 0;
-    font-size: 13px;
+    padding: 10px 0;
+    font-size: 12px;
     font-weight: 600;
-    color: #b0b0b0;
+    letter-spacing: 0.05em;
+    color: #8c8c8c;
     text-transform: uppercase;
 }
 
 .cal-tabla td {
-    height: 96px;
-    padding: 6px;
+    height: 100px;
+    padding: 8px;
     vertical-align: top;
     text-align: left;
     background: #262626;
     border: 1px solid #3d3d3d;
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, background 0.2s;
 }
 
 .cal-tabla td:hover {
     border-color: #6c8cff;
+    background: #2c2c2c;
 }
 
 .cal-tabla td.cal-vacio {
@@ -128,6 +177,7 @@
 
 .cal-tabla td.cal-seleccionado {
     border-color: #6c8cff;
+    background: rgba(108, 140, 255, 0.1);
     box-shadow: inset 0 0 0 1px #6c8cff;
 }
 
@@ -135,8 +185,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 24px;
-    height: 24px;
+    min-width: 26px;
+    height: 26px;
     margin-bottom: 4px;
     border-radius: 50%;
     font-size: 13px;
@@ -150,7 +200,7 @@
 
 .cal-evento {
     margin-top: 3px;
-    padding: 2px 6px;
+    padding: 3px 7px;
     font-size: 12px;
     background: rgba(108, 140, 255, 0.2);
     border-left: 3px solid #6c8cff;
@@ -160,6 +210,97 @@
     text-overflow: ellipsis;
 }
 
+/* Panel del día */
+.cal-panel {
+    margin-top: 28px;
+    padding: 20px;
+    background: #262626;
+    border: 1px solid #3d3d3d;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.cal-panel-titulo {
+    margin: 0 0 12px;
+    font-size: 18px;
+    text-transform: capitalize;
+}
+
+.cal-panel-vacio {
+    margin: 0;
+    font-size: 14px;
+    color: #b0b0b0;
+}
+
+.cal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: #2f2f2f;
+    border: 1px solid #3d3d3d;
+    border-left: 4px solid #6c8cff;
+    border-radius: 10px;
+}
+
+.cal-item-editando {
+    background: rgba(108, 140, 255, 0.12);
+    border-color: #6c8cff;
+}
+
+.cal-item-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.cal-item-texto span {
+    font-size: 13px;
+    color: #b0b0b0;
+}
+
+.cal-item-botones {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.cal-btn-editar,
+.cal-btn-eliminar {
+    padding: 7px 14px;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.cal-btn-editar {
+    color: #6c8cff;
+    border: 1px solid #6c8cff;
+}
+
+.cal-btn-editar:hover {
+    background: #6c8cff;
+    color: #fff;
+}
+
+.cal-btn-eliminar {
+    color: #ff6b6b;
+    border: 1px solid #ff6b6b;
+}
+
+.cal-btn-eliminar:hover {
+    background: #ff6b6b;
+    color: #fff;
+}
+
+/* Pantallas chicas */
 @media (max-width: 700px) {
     .cal-form {
         grid-template-columns: 1fr;
@@ -169,10 +310,79 @@
     }
     .cal-tabla td {
         height: 64px;
-        padding: 3px;
+        padding: 4px;
     }
     .cal-evento {
         font-size: 10px;
-        padding: 1px 3px;
+        padding: 1px 4px;
+    }
+    .cal-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Deja que la página crezca y haga scroll normal, solo en el calendario */
+html:has(.cal-pagina),
+body:has(.cal-pagina),
+#root:has(.cal-pagina),
+main:has(.cal-pagina) {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+}
+
+main:has(.cal-pagina) {
+    display: block;
+    padding: 0;
+}
+
+/* Header y footer dentro del flujo, así no se montan sobre el contenido */
+body:has(.cal-pagina) .site-header,
+body:has(.cal-pagina) .site-footer {
+    position: static;
+}
+
+/* Evita el scroll horizontal */
+html:has(.cal-pagina),
+body:has(.cal-pagina) {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.cal-pagina,
+.cal-pagina * {
+    box-sizing: border-box;
+}
+
+.cal-form {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 170px auto;
+}
+
+.cal-form > * {
+    min-width: 0;
+}
+
+.cal-form input {
+    width: 100%;
+    min-width: 0;
+}
+
+.cal-tabla {
+    width: 100%;
+    max-width: 100%;
+}
+
+body:has(.cal-pagina) .site-header,
+body:has(.cal-pagina) .site-footer {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+    .cal-form {
+        grid-template-columns: minmax(0, 1fr);
     }
 }

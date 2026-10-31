@@ -7,7 +7,7 @@ const { verificarToken } = require('./services/auth.js')
 const { tienePermiso } = require('./services/permisos')
 const { seedRoles } = require('./seeders/seedRoles')
 const { crearApunte, getApuntesPrivados, obtenerApunte, actualizarApunte } = require('./controllers/apunte.controller')
-const { crearEvento, listarEventos } = require('./controllers/calendario.controller')
+const { crearEvento, listarEventos, actualizarEvento, eliminarEvento } = require('./controllers/calendario.controller')
 
 const server = express()
 server.use(express.json())
@@ -33,6 +33,8 @@ server.patch('/apuntes/:id', verificarToken, tienePermiso('Apuntes', 'update'), 
 
 server.post('/calendario', verificarToken, crearEvento)
 server.get('/calendario', verificarToken, listarEventos)
+server.patch('/calendario/:id', verificarToken, actualizarEvento)
+server.delete('/calendario/:id', verificarToken, eliminarEvento)
 
 sequelize.sync().then(async () => {
     await seedRoles()
