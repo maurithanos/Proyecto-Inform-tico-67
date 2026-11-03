@@ -8,6 +8,9 @@ import Verapuntes from './Verapuntes'
 import EditarApunte from './Editarapunte'
 import { useAuth } from './AuthContext'
 import Calendario from './Calendario'
+import ApuntesPublicos from './ApuntesPublicos'
+import VerApunte from './verApunte'
+
 
 function RutaProtegida({ children, roles }) {
     const { usuario } = useAuth()
@@ -25,7 +28,7 @@ function App() {
                 <Link className='header-iniciar-sesion' to="/login">Iniciar sesion</Link>
                 <Link className='header-registro' to="/register">Registrarse</Link>
                 <Link className='header-modificar' to="/modificar">Modificar usuario</Link>
-                <Link className='header-detalles' to="/perfil">Detalles de cuenta</Link> 
+                <Link className='header-detalles' to="/apuntespublicos">Apuntes de la comunidad</Link> 
             </header>
 
             <main>
@@ -37,6 +40,9 @@ function App() {
                     {/* Rutas existentes */}
                     <Route path="/register" element={<Register />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/apuntespublicos" element={<ApuntesPublicos />} />
+
+                    
                     <Route
                         path="/perfil"
                         element={
@@ -76,6 +82,15 @@ function App() {
                                 <EditarApunte />
                             </RutaProtegida>
                         } />
+                    <Route 
+                        path="/apuntespublicos/:id" 
+                        element={
+                            <RutaProtegida>
+                                <VerApunte />
+                            </RutaProtegida>
+                        } />
+                    
+
                     <Route path="*" element={<Navigate to="/login" replace />} />
                 </Routes>
             </main>

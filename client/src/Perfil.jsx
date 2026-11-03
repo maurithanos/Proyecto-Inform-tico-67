@@ -104,6 +104,21 @@ function Perfil() {
         
         }
     }
+    const eliminarCuenta = async ()=>{
+        const confirma = window.confirm("¿Estas seguro de eliminar su cuenta?")
+        try {
+            await axios.delete('http://localhost:3000/perfil', 
+                { 
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } 
+                }
+            )
+            localStorage.removeItem('token')
+            navigate('/login')
+            return
+        } catch (error) {
+            console.error('Error al eliminar el perfil:', error)
+        }
+    }
 
     if (!user) return <p>Cargando...</p>
 
@@ -151,6 +166,8 @@ function Perfil() {
             />
             <button onClick={() => actualizarCampo('anio')}>Cambiar año</button>
             
+            
+            <button onClick={eliminarCuenta}>Eliminar cuenta</button>
             <button onClick={cerrarSesion}>Cerrar sesión</button>
             <p>{mensaje}</p>
         </div>

@@ -139,4 +139,32 @@ const modificarPerfil = async (req, res) => {
     }
 }
 
-module.exports = { register, login, perfil, modificarPerfil }
+const eliminarUsuario = async (req,res)=>{
+    try {
+        const user = await Usuario.findByPk(req.user.id)
+        if (!user) {
+            return res.status(404).json("Usuario no encontrado")
+        }
+        
+        await registrarBitacora('Cuenta Eliminada', `se elimino la cuenta del usuario ${user.email}`, user.id, null)
+        await user.destroy()
+        return res.status(200).json("Cuenta eliminada con exito")
+    } catch (error) {
+        return res.status(500).json({error:'Error interno'})
+    }
+
+}
+/*
+const borradoLogico = async (req,res)=>{
+    try {
+        const user = await Usuario.findByPk(req.user.id)
+        if (!user) {
+            return res.status(404).json("Usuario no encontrado")
+        }
+        await user.update(isActive: false)
+    } catch (error) {
+        return res.status(500).json({error:'Error interno'})
+    }
+}
+*/
+module.exports = { register, login, perfil, modificarPerfil, eliminarUsuario }

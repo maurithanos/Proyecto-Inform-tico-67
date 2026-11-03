@@ -5,6 +5,7 @@ const Apunte = require('./apunte')
 const Rol = require('./rol')
 const Permisos = require('./permisos')
 const Evento = require('./evento')
+const Calificacion = require('./calificacion') 
 
 Usuario.hasMany(Bitacora, { foreignKey: 'usuarioId' })
 Bitacora.belongsTo(Usuario, { foreignKey: 'usuarioId' })
@@ -15,9 +16,12 @@ Apunte.belongsTo(Usuario, { foreignKey: 'usuarioId' })
 Usuario.hasMany(Evento, { foreignKey: 'usuarioId' })
 Evento.belongsTo(Usuario, { foreignKey: 'usuarioId' })
 
+Apunte.hasMany(Calificacion,{foreignKey:'idApunte', as: 'calificaciones'})
+Calificacion.belongsTo(Apunte,{foreignKey:'idApunte'})
+
 Usuario.belongsTo(Rol, { foreignKey: 'rolId' })
 Rol.hasMany(Usuario, { foreignKey: 'rolId' })
 Rol.belongsToMany(Permisos, { through: 'RolPermisos' })
 Permisos.belongsToMany(Rol, { through: 'RolPermisos' })
 
-module.exports = { Usuario, Bitacora, DigitoVerificador, Apunte, Rol, Permisos, Evento }
+module.exports = { Usuario, Bitacora, DigitoVerificador, Apunte, Rol, Permisos, Evento , Calificacion}
