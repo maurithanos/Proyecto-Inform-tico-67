@@ -97,36 +97,56 @@ const obtenerApuntes = async (req,res)=>{
 const obtenerApunte = async (req, res) => {
     try {
         const apunte = await Apunte.findOne({
-            where: { 
+            where: {
                 id: req.params.id,
-                [Op.or]:[
-                    {EsPrivado:false},
-                    {usuarioId: req.user.id || 0}
+                [Op.or]: [
+                    { EsPrivado: false },
+                    { usuarioId: req.user.id || 0 }
                 ]
-
             },
-            include:[
-                {model: Calificacion, as: 'calificaciones'},
-                {model: Usuario , attributes: 'name'}
+            include: [
+                {
+                    model: Calificacion,
+                    as: 'calificaciones'
+                },
+                {
+                    model: Usuario,
+                    attributes: ['name']
+                }
             ]
         })
+
         if (!apunte) {
-            return res.status(404).json({ error: 'Apunte no encontrado' })
+            return res.status(404).json({
+                error: 'Apunte no encontrado'
+            })
         }
+
         const listaCalificaciones = apunte.calificaciones || []
+
         let promedio = 0
+
         if (listaCalificaciones.length > 0) {
             for (let i = 0; i < listaCalificaciones.length; i++) {
                 promedio += listaCalificaciones[i].calificacion
-            } 
-            promedio = promedio /listaCalificaciones.length
+            }
+
+            promedio = promedio / listaCalificaciones.length
         }
+
         promedio = Number(promedio.toFixed(1))
-        return res.status(200).json({apunte, promedio })
-        
+
+        return res.status(200).json({
+            apunte,
+            promedio
+        })
+
     } catch (err) {
-        console.error(err)
-        res.status(500).json({ error: 'Error interno' })
+        console.error('Error al obtener apunte:', err)
+
+        return res.status(500).json({
+            error: 'Error interno'
+        })
     }
 }
 

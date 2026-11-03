@@ -6,3 +6,5 @@ const Calificacion = sequelize.define('calificacion',{
         type: DataTypes.INTEGER,
     },
 })
+
+module.exports = Calificacion
