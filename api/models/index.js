@@ -18,6 +18,8 @@ Evento.belongsTo(Usuario, { foreignKey: 'usuarioId' })
 
 Apunte.hasMany(Calificacion,{foreignKey:'idApunte', as: 'calificaciones'})
 Calificacion.belongsTo(Apunte,{foreignKey:'idApunte'})
+Usuario.hasMany(Calificacion, { foreignKey: 'usuarioId' })
+Calificacion.belongsTo(Usuario, { foreignKey: 'usuarioId' })
 
 Usuario.belongsTo(Rol, { foreignKey: 'rolId' })
 Rol.hasMany(Usuario, { foreignKey: 'rolId' })

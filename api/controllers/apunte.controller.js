@@ -170,35 +170,74 @@ const actualizarApunte = async (req, res) => {
     }
 }
 
-const calificarApunte = async (req,res)=>{
+const calificarApunte = async (req, res) => {
     try {
-        const {id} = req.params
-        const {calificacion} = req.body
+        const idApunte = Number(req.params.id)
+        const calificacion = Number(req.body?.calificacion)
         const userId = req.user.id
-        const apunte = await Apunte.findByPk(id)
+
+        // Validar la puntuación
+        if (!Number.isInteger(calificacion) ||
+            calificacion < 1 ||
+            calificacion > 5) {
+
+            return res.status(400).json({
+                error: 'La calificación debe estar entre 1 y 5.'
+            })
+        }
+
+        // Buscar el apunte
+        const apunte = await Apunte.findByPk(idApunte)
+
         if (!apunte) {
-            return res.status(404).json("Apunte no encontrado")
+            return res.status(404).json({
+                error: 'Apunte no encontrado.'
+            })
         }
-        if (calificacion > 5 || calificacion < 1 ) {
-            return res.status(400).json("Calificacion invalida")
-        }
-        let calificacioActual = await Calificacion.findOne({where:{idApunte:id, usuarioId:userId}})
-        if (calificacioActual) {
-            calificacioActual.calificacion = calificacion
-            await calificacioActual.save()
-            return res.status(200).json("Calificacion modificada con exito")
-        }else{
+
+        // Buscar si el usuario ya calificó este apunte
+        const calificacionActual = await Calificacion.findOne({
+            where: {
+                idApunte: idApunte,
+                usuarioId: userId
+            }
+        })
+
+        if (calificacionActual) {
+
+            // Actualizar su calificación anterior
+            await calificacionActual.update({
+                calificacion: calificacion
+            })
+
+            return res.status(200).json({
+                message: 'Calificación modificada correctamente.',
+                calificacion
+            })
+
+        } else {
+
+            // Crear una nueva calificación
             await Calificacion.create({
-                calificacion,
-                idApunte: id,
+                calificacion: calificacion,
+                idApunte: idApunte,
                 usuarioId: userId
             })
-            return res.status(200).json("Calificacion realizada con exito")
-        }
-    } catch (error) {
-        return res.status(500).json("Errorm interno al calificar un apunte")
-    }
 
+            return res.status(200).json({
+                message: 'Calificación realizada correctamente.',
+                calificacion
+            })
+        }
+
+    } catch (error) {
+
+        console.error('ERROR AL CALIFICAR APUNTE:', error)
+
+        return res.status(500).json({
+            error: 'No se pudo guardar la calificación.'
+        })
+    }
 }
 
 

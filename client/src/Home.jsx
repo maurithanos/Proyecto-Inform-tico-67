@@ -3,11 +3,11 @@ import { useAuth } from './AuthContext'
 import './home.css'
 
 const OPCIONES = [
-    { to: '/perfil', icono: '👤', titulo: 'Mi perfil', texto: 'Mirá y modificá tus datos' },
-    { to: '/verapuntes', icono: '📚', titulo: 'Mis apuntes', texto: 'Los apuntes que creaste' },
-    { to: '/apuntes/nuevo', icono: '➕', titulo: 'Crear apunte', texto: 'Cargá un apunte nuevo' },
-    { to: '/apuntespublicos', icono: '🌐', titulo: 'Apuntes de la comunidad', texto: 'Mirá y calificá apuntes públicos' },
-    { to: '/calendario', icono: '📅', titulo: 'Calendario', texto: 'Tus fechas importantes' },
+    { to: '/perfil', titulo: 'Mi perfil', texto: 'Mirá y modificá tus datos' },
+    { to: '/verapuntes', titulo: 'Mis apuntes', texto: 'Los apuntes que creaste' },
+    { to: '/apuntes/nuevo', titulo: 'Crear apunte', texto: 'Cargá un apunte nuevo' },
+    { to: '/apuntespublicos', titulo: 'Apuntes de la comunidad', texto: 'Mirá y calificá apuntes públicos' },
+    { to: '/calendario', titulo: 'Calendario', texto: 'Tus fechas importantes' },
 ]
 
 function Home() {

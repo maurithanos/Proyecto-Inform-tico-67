@@ -56,29 +56,25 @@ function App() {
 
                 <Routes>
 
+                    {/* Página inicial */}
+
                     <Route
                         path="/"
                         element={
-                            <div>
-                                <h1>Página Principal (Home)</h1>
-                            </div>
+                            <Navigate
+                                to={usuario ? '/home' : '/login'}
+                                replace
+                            />
                         }
                     />
+
+                    {/* Rutas antiguas que ahora utilizan el perfil */}
 
                     <Route
                         path="/modificar"
                         element={
-                            <div>
-                                <h1>Modificar Usuario</h1>
-                            </div>
-                        }
-                    />
-
-                    <Route
-                        path="/calendario"
-                        element={
                             <RutaProtegida>
-                                <Calendario />
+                                <Navigate to="/perfil" replace />
                             </RutaProtegida>
                         }
                     />
@@ -86,30 +82,25 @@ function App() {
                     <Route
                         path="/detalles"
                         element={
-                            <div>
-                                <h1>Detalles de Cuenta</h1>
-                            </div>
+                            <RutaProtegida>
+                                <Navigate to="/perfil" replace />
+                            </RutaProtegida>
                         }
                     />
 
-                    {/* Registro e inicio de sesión */}
-
-                    <Route path="/register" element={<Register />} />
+                    {/* Login y registro */}
 
                     <Route path="/login" element={<Login />} />
 
-                    {/* Apuntes públicos */}
+                    <Route path="/register" element={<Register />} />
+
+                    {/* Página principal */}
 
                     <Route
-                        path="/apuntespublicos"
-                        element={<ApuntesPublicos />}
-                    />
-
-                    <Route
-                        path="/apuntespublicos/:id"
+                        path="/home"
                         element={
                             <RutaProtegida>
-                                <VerApunte />
+                                <Home />
                             </RutaProtegida>
                         }
                     />
@@ -125,29 +116,18 @@ function App() {
                         }
                     />
 
-                    {/* Crear apuntes */}
+                    {/* Calendario */}
 
                     <Route
-                        path="/apuntes/nuevo"
+                        path="/calendario"
                         element={
                             <RutaProtegida>
-                                <CrearApunte />
+                                <Calendario />
                             </RutaProtegida>
                         }
                     />
 
-                    {/* Página principal */}
-
-                    <Route
-                        path="/home"
-                        element={
-                            <RutaProtegida>
-                                <Home />
-                            </RutaProtegida>
-                        }
-                    />
-
-                    {/* Ver apuntes */}
+                    {/* Apuntes privados */}
 
                     <Route
                         path="/verapuntes"
@@ -158,7 +138,14 @@ function App() {
                         }
                     />
 
-                    {/* Modificar apuntes */}
+                    <Route
+                        path="/apuntes/nuevo"
+                        element={
+                            <RutaProtegida>
+                                <CrearApunte />
+                            </RutaProtegida>
+                        }
+                    />
 
                     <Route
                         path="/apuntes/:id/editar"
@@ -169,11 +156,27 @@ function App() {
                         }
                     />
 
-                    {/* Rutas inexistentes */}
+                    {/* Comunidad */}
+
+                    <Route
+                        path="/apuntespublicos"
+                        element={<ApuntesPublicos />}
+                    />
+
+                    <Route
+                        path="/apuntespublicos/:id"
+                        element={
+                            <RutaProtegida>
+                                <VerApunte />
+                            </RutaProtegida>
+                        }
+                    />
+
+                    {/* Página inexistente */}
 
                     <Route
                         path="*"
-                        element={<Navigate to="/login" replace />}
+                        element={<Navigate to="/" replace />}
                     />
 
                 </Routes>
