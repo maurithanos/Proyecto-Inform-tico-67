@@ -1,4 +1,4 @@
-const { Usuario, Rol, Permisos } = require('../models')
+const { Usuario, Rol, Permisos, Bitacora, Apunte, Evento, Calificacion } = require('../models')
 const sequelize = require('../config/database')
 const bcrypt = require('bcrypt')
 const { calcularDVH } = require('../utils/digitoVerificador')
@@ -139,20 +139,74 @@ const modificarPerfil = async (req, res) => {
     }
 }
 
-const eliminarUsuario = async (req,res)=>{
+const eliminarUsuario = async (req, res) => {
+    let t
     try {
-        const user = await Usuario.findByPk(req.user.id)
-        if (!user) {
-            return res.status(404).json("Usuario no encontrado")
-        }
-        
-        await registrarBitacora('Cuenta Eliminada', `se elimino la cuenta del usuario ${user.email}`, user.id, null)
-        await user.destroy()
-        return res.status(200).json("Cuenta eliminada con exito")
-    } catch (error) {
-        return res.status(500).json({error:'Error interno'})
-    }
+        t = await sequelize.transaction()
 
+        const user = await Usuario.findByPk(req.user.id, { transaction: t })
+        if (!user) {
+            await t.rollback()
+            return res.status(404).json({ error: 'Usuario no encontrado' })
+        }
+
+        const userId = user.id
+
+        // Los apuntes privados se eliminan; los públicos quedan anónimos.
+        const apuntesPrivados = await Apunte.findAll({
+            attributes: ['id'],
+            where: { usuarioId: userId, EsPrivado: true },
+            transaction: t
+        })
+        const idsApuntesPrivados = apuntesPrivados.map(apunte => apunte.id)
+
+        // Eliminar las calificaciones del usuario y las de sus apuntes privados.
+        await Calificacion.destroy({
+            where: { usuarioId: userId },
+            transaction: t
+        })
+        if (idsApuntesPrivados.length > 0) {
+            await Calificacion.destroy({
+                where: { idApunte: idsApuntesPrivados },
+                transaction: t
+            })
+        }
+
+        await Apunte.destroy({
+            where: { usuarioId: userId, EsPrivado: true },
+            transaction: t
+        })
+        await Apunte.update(
+            { usuarioId: null },
+            { where: { usuarioId: userId, EsPrivado: false }, transaction: t }
+        )
+        await Evento.destroy({
+            where: { usuarioId: userId },
+            transaction: t
+        })
+        await Bitacora.destroy({
+            where: { usuarioId: userId },
+            transaction: t
+        })
+
+        await user.destroy({ transaction: t })
+
+        // Se conserva un registro de la operación sin guardar el email del usuario eliminado.
+        await registrarBitacora(
+            'Cuenta Eliminada',
+            'Se eliminó una cuenta de usuario (ID: ' + userId + ').',
+            null,
+            t
+        )
+        await actualizarDVV(Usuario, 'users', t)
+
+        await t.commit()
+        return res.status(200).json({ message: 'Cuenta eliminada correctamente' })
+    } catch (error) {
+        if (t && !t.finished) await t.rollback()
+        console.error('Error al eliminar cuenta:', error)
+        return res.status(500).json({ error: 'No se pudo eliminar la cuenta.' })
+    }
 }
 /*
 const borradoLogico = async (req,res)=>{
