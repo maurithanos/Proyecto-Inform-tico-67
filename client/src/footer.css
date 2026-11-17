@@ -1,67 +1,97 @@
+/* PIE DE PAGINA PRINCIPAL */
+
 .footer {
     margin-top: 20px;
+    color: #a1a1aa;
     text-align: center;
     font-size: 12px;
-    color: #888; 
 }
 
 .site-footer {
-    position: fixed;
-    bottom: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    align-items: center;
+    gap: 7px 20px;
     width: 100%;
-    background-color: #121212; 
-    color: white; 
-    height: 100px;
-    text-align: center;
-    padding: 6px 0;
-    border-top: 1.8px solid white;
-}
-
-.copyright {
-    margin: -2px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
- 
-    color: white; 
-    height: 30px;
-    text-align: center;
-    padding: 5px 0;
+    min-height: 132px;
+    padding: 15px 28px 10px;
+    background: #111113;
+    color: #d4d4d8;
+    border-top: 1px solid #35353b;
     text-align: center;
 }
 
-.redes {
-    margin-left: 10%;
+.site-footer > p {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    color: #b8b8c0;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.site-footer .redes {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.site-footer .redes-sociales {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.site-footer > p:not([class]) {
+    grid-column: 2;
+    grid-row: 1;
+    color: #f4f4f5;
+    font-weight: 600;
+}
+
+.site-footer .contacto {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.site-footer .ayuda {
+    grid-column: 3;
+    grid-row: 1 / 3;
     display: flex;
-    position: absolute;
-    top: 10px;
-    width: 180%; 
-    color: white; 
-    height: 70px;
-    text-align: center;
-    padding: 10px 0;
+    align-items: center;
+    justify-content: center;
 }
 
-.redes-sociales {
-    margin-left: 10%;
-    display: flex;
-    position: absolute;
-    top: 40px;
-    width: 180%; 
-    color: white; 
-    height: 70px;
-    text-align: center;
-    padding: 10px 0;
+.site-footer .copyright {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    padding-top: 8px;
+    border-top: 1px solid #303036;
+    color: #898991;
+    font-size: 11px;
 }
 
-.ayuda {
-    margin-left: 80%;
-    display: flex;
-    position: absolute;
-    top: 10px;
-    width: 180%; 
-    color: white; 
-    height: 70px;
-    text-align: center;
-    padding: 10px 0;
+@media (max-width: 650px) {
+    .site-footer {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 8px;
+        padding: 18px 14px 12px;
+    }
+
+    .site-footer .redes,
+    .site-footer .redes-sociales,
+    .site-footer > p:not([class]),
+    .site-footer .contacto,
+    .site-footer .ayuda,
+    .site-footer .copyright {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .site-footer .copyright {
+        width: 100%;
+        margin-top: 5px;
+    }
 }
