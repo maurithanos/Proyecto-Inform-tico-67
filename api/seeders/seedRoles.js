@@ -8,7 +8,7 @@ const PERMISOS = TABLAS.flatMap((tabla) => ACCIONES.map((accion) => [tabla, acci
 const ROLES = {
     usuario: [
         'Apuntes:create', 'Apuntes:read', 'Apuntes:update', 'Apuntes:delete',
-        'Usuarios:read', 'Usuarios:update', 'Usuarios:delete'
+        'Usuarios:read', 'Usuarios:update'
     ],
     administrador: '*'
 }
