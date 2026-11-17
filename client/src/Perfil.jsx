@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useAuth } from './AuthContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import './perfil.css'
@@ -8,8 +7,6 @@ function Perfil() {
     const [user, setUser] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [cargando, setCargando] = useState(true)
-    const [eliminando, setEliminando] = useState(false)
-    const [errorEliminacion, setErrorEliminacion] = useState('')
 
     const [formCambio, setFormCambio] = useState({
         name: '',
@@ -18,10 +15,9 @@ function Perfil() {
     })
 
     const navigate = useNavigate()
-    const { logout } = useAuth()
 
     const cerrarSesion = () => {
-        logout()
+        localStorage.removeItem('token')
         navigate('/login')
     }
 
@@ -123,9 +119,6 @@ function Perfil() {
 
         if (!confirma) return
 
-        setEliminando(true)
-        setErrorEliminacion('')
-
         try {
             await axios.delete('http://localhost:3000/perfil', {
                 headers: {
@@ -133,23 +126,16 @@ function Perfil() {
                 }
             })
 
-            logout()
-            navigate('/login', { replace: true })
+            localStorage.removeItem('token')
+            navigate('/login')
         } catch (err) {
-            if (err.response?.status === 401) {
-                logout()
-                navigate('/login', { replace: true })
-                return
-            }
-
-            setErrorEliminacion(
+            setMensaje(
                 err.response?.data?.error ||
-                'No se pudo eliminar la cuenta. Revisá que el servidor esté funcionando.'
+                'No se pudo eliminar la cuenta.'
             )
-        } finally {
-            setEliminando(false)
         }
     }
+
     if (cargando) {
         return (
             <div className="perfil-pagina">
@@ -331,17 +317,10 @@ function Perfil() {
                     <button
                         className="perfil-btn-eliminar"
                         onClick={eliminarCuenta}
-                        disabled={eliminando}
                     >
-                        {eliminando ? 'Eliminando...' : 'Eliminar cuenta'}
+                        Eliminar cuenta
                     </button>
                 </div>
-
-                {errorEliminacion && (
-                    <p className="perfil-mensaje" role="alert">
-                        {errorEliminacion}
-                    </p>
-                )}
 
             </section>
 
